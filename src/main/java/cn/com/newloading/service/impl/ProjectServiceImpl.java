@@ -1,6 +1,7 @@
 package cn.com.newloading.service.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,6 +39,18 @@ public class ProjectServiceImpl implements ProjectService {
 		}else {
 			return "0001";
 		}
+	}
+
+	@Override
+	public int queryProjectCountByParams(Project project) {
+		// TODO Auto-generated method stub
+		return proMapper.queryProjectCountByParams(project);
+	}
+
+	@Override
+	public List<Project> queryProjectByParams(Project project) {
+		// TODO Auto-generated method stub
+		return proMapper.queryProjectByParams(project);
 	}
 
 }

@@ -1,5 +1,7 @@
 package cn.com.newloading.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,6 +98,84 @@ public class ProjectController extends BaseController {
 		project.setDetails(details);
 		String retcode = proService.addProject(project);
 		return responseMsg(retcode,"PRO");
+	}
+	
+	
+	//项目管理
+	@RequestMapping("/projectManage")
+	public ModelAndView projectManage(HttpServletRequest request,Model model) {
+		ModelAndView mav = new ModelAndView("projectManage");
+		Project pro = new Project();
+		int total = proService.queryProjectCountByParams(pro);
+		model.addAttribute("total", total);
+		return mav;
+	}
+	
+	@RequestMapping("/getTotal")
+	@ResponseBody
+	public JSONObject getTotal(HttpServletRequest request) {
+		String userName = request.getParameter("userName");
+		String patientName = request.getParameter("patientName");
+		String patientSex = request.getParameter("patientSex");
+		String phone = request.getParameter("phone");
+		String status = request.getParameter("status");
+		String details = request.getParameter("details");
+		String applyTime = request.getParameter("applyTime");
+		String[] at = applyTime.split("~");
+//		String currPage = request.getParameter("currPage");
+//		String limit = request.getParameter("limit");
+		Project pro = new Project();
+		pro.setUserName(userName);
+		pro.setPatientName(patientName);
+		pro.setPatientSex(patientSex);
+		pro.setPhone(phone);
+		pro.setStatus(status);
+		pro.setStartApplyTime(at[0]);
+		if(at.length == 2) {
+			pro.setEndApplyTime(at[1]);
+		}else {
+			pro.setEndApplyTime(null);
+		}
+		
+		pro.setDetails(details);
+		int total = proService.queryProjectCountByParams(pro);
+		JSONObject json = new JSONObject();
+		json.put("total",total);
+		return json;
+	}
+	
+	@RequestMapping("/projectManagePage")
+	public ModelAndView projectManagePage(HttpServletRequest request,Model model) {
+		ModelAndView mav = new ModelAndView("projectManagePage");
+		String userName = request.getParameter("userName");
+		String patientName = request.getParameter("patientName");
+		String patientSex = request.getParameter("patientSex");
+		String phone = request.getParameter("phone");
+		String status = request.getParameter("status");
+		String applyTime = request.getParameter("applyTime");
+		String[] at = applyTime.split("~");
+		String details = request.getParameter("details");
+		String currPage = request.getParameter("currPage");
+		String limit = request.getParameter("limit");
+		Project pro = new Project();
+		pro.setUserName(userName);
+		pro.setPatientName(patientName);
+		pro.setPatientSex(patientSex);
+		pro.setPhone(phone);
+		pro.setStatus(status);
+		pro.setStartApplyTime(at[0]);
+		if(at.length == 2) {
+			pro.setEndApplyTime(at[1]);
+		}else {
+			pro.setEndApplyTime(null);
+		}
+		pro.setDetails(details);
+		pro.setCurrent(Integer.valueOf(currPage));
+		pro.setLimit(Integer.valueOf(limit));
+		pro.setStart((Integer.valueOf(currPage) - 1) * Integer.valueOf(limit));
+		List<Project> proList = proService.queryProjectByParams(pro);
+		model.addAttribute("proList", proList);
+		return mav;
 	}
 	
 }

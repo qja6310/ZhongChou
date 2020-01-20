@@ -19,6 +19,11 @@ public class Project extends PageBean{
 	private String status;
 	private String refuseCount;
 	
+	private String userName;
+	private String userPhone;
+	private String startApplyTime;
+	private String endApplyTime;
+	
 	public Project() {
 		
 	}
@@ -118,6 +123,38 @@ public class Project extends PageBean{
 	}
 	public void setRefuseCount(String refuseCount) {
 		this.refuseCount = refuseCount;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getUserPhone() {
+		return userPhone;
+	}
+
+	public void setUserPhone(String userPhone) {
+		this.userPhone = userPhone;
+	}
+
+	public String getStartApplyTime() {
+		return startApplyTime;
+	}
+
+	public void setStartApplyTime(String startApplyTime) {
+		this.startApplyTime = startApplyTime;
+	}
+
+	public String getEndApplyTime() {
+		return endApplyTime;
+	}
+
+	public void setEndApplyTime(String endApplyTime) {
+		this.endApplyTime = endApplyTime;
 	}
 	
 	

@@ -15,7 +15,7 @@
 </style>
 </head>
 <body>
-<div class="fm">
+<div>
 	<div style="text-align: center;"><label><h1>${news.title }</h1></label></div>
 	<div style="text-align: end;"><label><h5>发布时间:${news.issueTime }</h5></label></div>
 	<div>${news.content }</div>

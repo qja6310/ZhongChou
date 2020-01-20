@@ -16,7 +16,7 @@
 </head>
 <body>
 	<input id="newsId" type="hidden" value="${news.id }"/>
-	<div class="layui-form fm">
+	<div class="layui-form">
 		<div class="layui-form-item">
 			<label class="layui-form-label" style="width: 100px;">新闻标题</label>
 			<div class="layui-input-block">
@@ -27,7 +27,7 @@
 		<div class="layui-form-item">
 			<label class="layui-form-label" style="width: 100px;">新闻内容</label>
 			<div class="layui-input-block">
-				<div style="margin-bottom: 0;">
+				<div style="margin-bottom: 0;background-color: white;">
 					<textarea id="asdfg" style="display: none;">${news.content }</textarea>
 				</div>
 			</div>

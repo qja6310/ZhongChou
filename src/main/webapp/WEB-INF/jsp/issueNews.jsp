@@ -15,7 +15,7 @@
 </style>
 </head>
 <body>
-	<div class="layui-form fm">
+	<div class="layui-form">
 		<div class="layui-form-item">
 			<label class="layui-form-label" style="width: 100px;">新闻标题</label>
 			<div class="layui-input-block">

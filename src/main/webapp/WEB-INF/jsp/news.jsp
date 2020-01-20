@@ -33,7 +33,7 @@
 			<i class="layui-icon layui-icon-search"></i> 搜索
 		</button>
 	</div>
-	<div class="fm" id="newsDiv">
+	<div id="newsDiv">
 		
 	</div>
 	<script type="text/javascript">

@@ -37,7 +37,7 @@
 			<i class="layui-icon layui-icon-add-1"></i> 发布新闻
 		</button>
 	</div>
-	<div class="fm">
+	<div>
 		<table class="layui-table">
 			<colgroup>
 				<col width="150">

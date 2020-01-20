@@ -48,7 +48,7 @@
 					<c:if test="${user.role == 'a' }">
 						<dl class="layui-nav-child">
 							<dd>
-								<a>项目管理</a>
+								<a onclick="projectManage()">项目管理</a>
 							</dd>
 						</dl>
 					</c:if>
@@ -124,7 +124,7 @@
 			</div>
 		</div> --%>
 
-		<div class="layui-body">
+		<div>
 			<!-- 内容主体区域 -->
 			<div style="padding: 15px;" id="content">
 				
@@ -174,6 +174,9 @@
 		}
 		function news(){
 			$('#content').load('../news/');
+		}
+		function projectManage(){
+			$('#content').load('../projects/projectManage');
 		}
 		//菜单显示隐藏
 		/* function isShowLeft(index){
