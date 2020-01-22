@@ -13,6 +13,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSONObject;
 
+import cn.com.newloading.bean.Admin;
+import cn.com.newloading.bean.AuditLog;
 import cn.com.newloading.bean.Project;
 import cn.com.newloading.bean.User;
 import cn.com.newloading.service.ProjectService;
@@ -120,22 +122,24 @@ public class ProjectController extends BaseController {
 		String phone = request.getParameter("phone");
 		String status = request.getParameter("status");
 		String details = request.getParameter("details");
-		String applyTime = request.getParameter("applyTime");
-		String[] at = applyTime.split("~");
+//		String applyTime = request.getParameter("applyTime");
+//		String[] at = applyTime.split("~");
 //		String currPage = request.getParameter("currPage");
 //		String limit = request.getParameter("limit");
+		String startApplyTime = request.getParameter("startApplyTime");
+		String endApplyTime = request.getParameter("endApplyTime");
 		Project pro = new Project();
 		pro.setUserName(userName);
 		pro.setPatientName(patientName);
 		pro.setPatientSex(patientSex);
 		pro.setPhone(phone);
 		pro.setStatus(status);
-		pro.setStartApplyTime(at[0]);
-		if(at.length == 2) {
-			pro.setEndApplyTime(at[1]);
-		}else {
-			pro.setEndApplyTime(null);
-		}
+		pro.setStartApplyTime(startApplyTime);
+//		if(at.length == 2) {
+//			pro.setEndApplyTime(at[1]);
+//		}else {
+			pro.setEndApplyTime(endApplyTime);
+//		}
 		
 		pro.setDetails(details);
 		int total = proService.queryProjectCountByParams(pro);
@@ -152,8 +156,10 @@ public class ProjectController extends BaseController {
 		String patientSex = request.getParameter("patientSex");
 		String phone = request.getParameter("phone");
 		String status = request.getParameter("status");
-		String applyTime = request.getParameter("applyTime");
-		String[] at = applyTime.split("~");
+		String startApplyTime = request.getParameter("startApplyTime");
+		String endApplyTime = request.getParameter("endApplyTime");
+//		String applyTime = request.getParameter("applyTime");
+//		String[] at = applyTime.split("~");
 		String details = request.getParameter("details");
 		String currPage = request.getParameter("currPage");
 		String limit = request.getParameter("limit");
@@ -163,12 +169,8 @@ public class ProjectController extends BaseController {
 		pro.setPatientSex(patientSex);
 		pro.setPhone(phone);
 		pro.setStatus(status);
-		pro.setStartApplyTime(at[0]);
-		if(at.length == 2) {
-			pro.setEndApplyTime(at[1]);
-		}else {
-			pro.setEndApplyTime(null);
-		}
+		pro.setStartApplyTime(startApplyTime);
+		pro.setEndApplyTime(endApplyTime);
 		pro.setDetails(details);
 		pro.setCurrent(Integer.valueOf(currPage));
 		pro.setLimit(Integer.valueOf(limit));
@@ -178,4 +180,40 @@ public class ProjectController extends BaseController {
 		return mav;
 	}
 	
+	@RequestMapping("/toAudit")
+	public ModelAndView toAudit(HttpServletRequest request,Model model) {
+		ModelAndView mav = new ModelAndView("auditPro");
+		String id = request.getParameter("id");
+		Project pro = proService.queryProjectById(id);
+		model.addAttribute("pro", pro);
+		return mav;
+	}
+	
+	@RequestMapping("audit")
+	@ResponseBody
+	public JSONObject audit(HttpServletRequest request) {
+		String id = request.getParameter("id");
+		if(StringUtil.isBlank(id)) {
+			return responseMsg("0002","PRO");
+		}
+		String status = request.getParameter("status");
+		if(StringUtil.isBlank(status)) {
+			return responseMsg("0002","PRO");
+		}
+		String explain = request.getParameter("explain");
+		if("1".equals(status) && StringUtil.isBlank(explain)) {
+			return responseMsg("0011","PRO");
+		}
+		Admin admin = (Admin) request.getSession().getAttribute("user");
+		if(admin == null) {
+			return responseMsg("0005","USER");
+		}
+		AuditLog auditLog = new AuditLog();
+		auditLog.setAdminId(admin.getId());
+		auditLog.setProjectId(id);
+		auditLog.setStatus(status);
+		auditLog.setExplain(explain);
+		String retcode = proService.auditProject(auditLog);
+		return responseMsg(retcode,"PRO");
+	}
 }

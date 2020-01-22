@@ -19,7 +19,7 @@
 			<h1>请填写信息</h1>
 		</div>
 		<div class="layui-card-body">
-			<form class="layui-form" action="">
+			<form class="layui-form" action="" id="form5">
 				<div class="layui-form-item">
 					<label class="layui-form-label">姓名:</label>
 					<div class="layui-input-inline">
@@ -86,7 +86,7 @@
 		//Demo
 		layui.use('form', function() {
 			var form = layui.form;
-
+			layui.form.render('radio','form5');
 		});
 	</script>
 	<script type="text/javascript">

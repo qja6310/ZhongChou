@@ -89,7 +89,7 @@
 					<label class="layui-form-label lw">申请时间</label>
 					<div class="layui-input-inline" style="width: 70%;">
 						<input type="text" id="applyTime" name="applyTime"
-							class="layui-input" placeholder="yyyy-MM-dd hh:mi:ss ~ yyyy-MM-dd hh:mi:ss" readonly>
+							class="layui-input" readonly>
 					</div>
 				</div>
 			</div>
@@ -121,16 +121,17 @@
 			</colgroup>
 			<thead>
 				<tr>
-					<th style="text-align: center;">序号</th>
-					<th style="text-align: center;">申请人</th>
-					<th style="text-align: center;">患者</th>
-					<th style="text-align: center;">患者年龄</th>
-					<th style="text-align: center;">患者性别</th>
+					<th style="text-align: center;width:4%;">序号</th>
+					<th style="text-align: center;width: 8%;">申请人</th>
+					<th style="text-align: center;width: 8%;">患者</th>
+					<th style="text-align: center;width: 6%;">患者年龄</th>
+					<th style="text-align: center;width: 5%;">患者性别</th>
 					<th style="text-align: center;">目标金额</th>
 					<th style="text-align: center;">截止捐款时间</th>
 					<th style="text-align: center;">联系电话</th>
 					<th style="text-align: center;">状态</th>
 					<th style="text-align: center;">申请时间</th>
+					<th style="text-align: center;width: 8%;">审核不过(次)</th>
 					<th style="text-align: center;">操作</th>
 				</tr>
 			</thead>
@@ -143,18 +144,19 @@
 	<script type="text/javascript">
 		layui.use('form', function() {
 			var form = layui.form;
-			layui.form.render('select','form1');
+			layui.form.render('select', 'form1');
 		});
-		layui.use('laydate', function(){
-			 var laydate = layui.laydate;
-			 laydate.render({
-			    elem: '#applyTime'
-			    ,type: 'datetime'
-			    ,range: '~'
-			  });
-		}); 
+		layui.use('laydate', function() {
+			var laydate = layui.laydate;
+			laydate.render({
+				elem : '#applyTime',
+				type : 'datetime',
+				range : '~',
+				format : 'yyyyMMddHHmmss'
+			});
+		});
 		// 定义每页的记录数
-		var limit = 2;
+		var limit = 10;
 		var total = $("#total").val();
 		var currPage = 1;
 		var laypage;
@@ -165,24 +167,40 @@
 			//newsManagePage();
 		});
 
-		function issueNews() {
-			$('#content').load('../news/issueNews');
+		function audit(id) {
+			if(id == '' || id == undefined){
+				layer.msg("缺少关键参数", {
+					icon : 2,
+					time : 2000,
+				});
+				return;
+			}
+			$('#content').load('../projects/toAudit?id='+id);
 		}
 
 		function projectManagePage() {
-			//getTotal();
 			var userName = $("#userName").val();
 			var patientName = $("#patientName").val();
 			var patientSex = $("#patientSex").val();
 			var phone = $("#phone").val();
 			var status = $("#status").val();
 			var applyTime = $("#applyTime").val();
+			var atime = applyTime.split("~");
+			var startApplyTime = "";
+			var endApplyTime = "";
+			if (applyTime != "" && applyTime != undefined) {
+				startApplyTime = atime[0].trim();
+				endApplyTime = atime[1].trim();
+			}
+
 			var details = $("#details").val();
-			$('#projectsDiv').load(
-					'../projects/projectManagePage?userName=' + userName + '&patientName='+patientName
-							+'&patientSex='+patientSex +'&phone='+ phone +'&status='+status
-							+'&applyTime='+applyTime+'&details='+details+ '&currPage='
-							+ currPage + '&limit=' + limit);
+			$('#projectsDiv').load('../projects/projectManagePage?userName=' + userName
+							+ '&patientName=' + patientName + '&currPage='
+							+ currPage + '&limit=' + limit + '&patientSex='
+							+ patientSex + '&phone=' + phone + '&status='
+							+ status + '&startApplyTime=' + startApplyTime
+							+ '&endApplyTime=' + endApplyTime + '&details='
+							+ details);
 		}
 
 		//查询数量的总数
@@ -196,6 +214,13 @@
 			var phone = $("#phone").val();
 			var status = $("#status").val();
 			var applyTime = $("#applyTime").val();
+			var atime = applyTime.split("~");
+			var startApplyTime = "";
+			var endApplyTime = "";
+			if (applyTime != "" && applyTime != undefined) {
+				startApplyTime = atime[0].trim();
+				endApplyTime = atime[1].trim();
+			}
 			var details = $("#details").val();
 			$.ajax({
 				type : "post",
@@ -206,7 +231,8 @@
 					'patientSex' : patientSex,
 					'phone' : phone,
 					'status' : status,
-					'applyTime' : applyTime,
+					'startApplyTime' : startApplyTime,
+					'endApplyTime' : endApplyTime,
 					'details' : details
 				},
 				dataType : "json",

@@ -10,17 +10,25 @@
 				<td>${item.userName }</td>
 				<td>${item.patientName }</td>
 				<td>${item.patientAge }</td>
-				<td>${item.patientSex }</td>
+				<td>
+					<c:if test="${item.patientSex == 1}">男</c:if>
+					<c:if test="${item.patientSex == 0}">女</c:if>
+				</td>
 				<td>${item.targetMoney }</td>
 				<td>${item.endTime }</td>
 				<td>${item.phone }</td>
-				<td>${item.status }</td>
+				<td>
+					<c:if test="${item.status == 1}">待审核</c:if>
+				</td>
 				<td>${item.applyTime }</td>
+				<td>${item.refuseCount }</td>
 				<td class="center">
-					<button type="button" class="layui-btn layui-btn-warm" onclick="editNews('${item.id}')">
-						<i class="layui-icon layui-icon-edit"></i> 编辑
-					</button>
-					<button type="button" class="layui-btn layui-btn-danger" onclick="delNews('${item.id}')">
+					<c:if test="${item.refuseCount < 3}">
+						<button type="button" class="layui-btn layui-btn-sm layui-btn-warm" onclick="audit('${item.id}')">
+							<i class="layui-icon layui-icon-auz"></i> 审核
+						</button>
+					</c:if>
+					<button type="button" class="layui-btn layui-btn-sm layui-btn-danger" onclick="delNews('${item.id}')">
 						<i class="layui-icon layui-icon-delete"></i> 删除
 					</button>
 				</td>

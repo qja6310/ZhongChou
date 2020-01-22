@@ -23,7 +23,7 @@ body {
 </style>
 </head>
 <body>
-	<form class="layui-form fm">
+	<form class="layui-form fm" id="form4">
 		<div class="layui-form-item">
 			<label class="layui-form-label">姓名:</label>
 			<div class="layui-input-inline">
@@ -73,12 +73,7 @@ body {
 		//Demo
 		layui.use('form', function() {
 			var form = layui.form;
-	
-			//监听提交
-			form.on('submit(formDemo)', function(data) {
-				layer.msg(JSON.stringify(data.field));
-				return false;
-			});
+			layui.form.render('radio','form4');
 		});
 		/* 登录 */
 		function saveUpdate() {

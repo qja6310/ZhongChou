@@ -13,7 +13,7 @@ public class ProjectProvider {
 	public String queryProjectByParams(Project project) {
 		SQL sql = new SQL();
 		sql.SELECT("u.name userName,p.id,p.patientName,p.patientAge,p.patientSex,p.targetMoney,p.endTime," + 
-				"p.phone,p.`status`,p.applyTime");
+				"p.phone,p.`status`,p.applyTime,p.refuseCount");
 		sql.FROM(T_PROJECT + " p inner join " + T_USER + " u on u.id = p.userId");
 		if(StringUtil.isNotBlank(project.getUserName())) {
 			project.setUserName("%"+project.getUserName()+"%");
@@ -34,10 +34,10 @@ public class ProjectProvider {
 			sql.WHERE("p.`status` = #{status}");
 		}
 		if(StringUtil.isNotBlank(project.getStartApplyTime())) {
-			sql.WHERE("p.applyTime >= #{startApplyTime}");
+			sql.WHERE("p.applyTime >= DATE_FORMAT(#{startApplyTime},'%Y-%m-%d %H:%i:%s')");
 		}
 		if(StringUtil.isNotBlank(project.getEndApplyTime())) {
-			sql.WHERE("p.applyTime <= #{endApplyTime}");
+			sql.WHERE("p.applyTime <= DATE_FORMAT(#{endApplyTime},'%Y-%m-%d %H:%i:%s')");
 		}
 		if(StringUtil.isNotBlank(project.getDetails())) {
 			project.setDetails("%"+project.getDetails()+"%");
@@ -82,6 +82,13 @@ public class ProjectProvider {
 		return sql.toString();
 	}
 	
-	
-	
+	public String editProject(Project project) {
+		SQL sql = new SQL();
+		sql.UPDATE(T_PROJECT);
+		if(StringUtil.isNotBlank(project.getStatus())) {
+			sql.SET("status = #{status}");
+		}
+		sql.WHERE("id = #{id}");
+		return sql.toString();
+	}
 }

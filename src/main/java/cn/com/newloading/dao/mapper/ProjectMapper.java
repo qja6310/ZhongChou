@@ -5,7 +5,10 @@ import java.util.List;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.annotations.UpdateProvider;
 
 import cn.com.newloading.bean.Project;
 import cn.com.newloading.dao.provider.ProjectProvider;
@@ -25,4 +28,10 @@ public interface ProjectMapper {
 	
 	@SelectProvider(type = ProjectProvider.class, method = "queryProjectCountByParams")
 	int queryProjectCountByParams(Project project);
+
+	@Select("select u.name userName,p.* from t_project p inner join t_user u on u.id = p.userId where p.id = #{id}")
+	Project queryProjectById(@Param("id")String id);
+	
+	@UpdateProvider(type=ProjectProvider.class,method = "editProject")
+	Integer editProject(Project project);
 }
