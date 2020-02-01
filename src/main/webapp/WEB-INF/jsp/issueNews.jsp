@@ -100,6 +100,8 @@
 							icon : 1,
 							time : 2000,
 						});
+						$("#btn").addClass("layui-btn-disabled");
+						$("#btn").attr("disabled",true);
 					} else {
 						layer.msg(data.retMsg, {
 							icon : 2,

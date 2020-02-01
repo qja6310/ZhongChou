@@ -34,4 +34,7 @@ public interface ProjectMapper {
 	
 	@UpdateProvider(type=ProjectProvider.class,method = "editProject")
 	Integer editProject(Project project);
+	
+	@Select("select count(*) from t_project where status != '0' and status != '3' and userId = #{userId}")
+	Integer wajProByUserId(String userId);
 }

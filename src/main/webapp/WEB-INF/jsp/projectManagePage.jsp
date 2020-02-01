@@ -25,15 +25,15 @@
 				</td>
 				<td>${item.applyTime }</td>
 				<td>${item.refuseCount }</td>
-				<td class="center">
+				<td>
+					<button type="button" class="layui-btn layui-btn-sm layui-btn-normal" onclick="proDetails('${item.id}')">
+						<i class="layui-icon layui-icon-about"></i> 详情
+					</button>
 					<c:if test="${item.refuseCount < 3 && item.status == 1}">
 						<button type="button" class="layui-btn layui-btn-sm layui-btn-warm" onclick="audit('${item.id}')">
 							<i class="layui-icon layui-icon-auz"></i> 审核
 						</button>
 					</c:if>
-					<button type="button" class="layui-btn layui-btn-sm layui-btn-normal" onclick="proDetails('${item.id}')">
-						<i class="layui-icon layui-icon-about"></i> 详情
-					</button>
 				</td>
 			</tr>
 		</c:forEach>

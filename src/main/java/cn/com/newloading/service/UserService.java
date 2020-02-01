@@ -1,6 +1,9 @@
 package cn.com.newloading.service;
 
+import java.util.List;
+
 import cn.com.newloading.bean.User;
+import cn.com.newloading.bean.UserInfo;
 
 public interface UserService {
 
@@ -22,5 +25,11 @@ public interface UserService {
 	 * @return
 	 */
 	String addUser(User user);
+	
+	int getTotal(User user);
+	
+	List<User> queryUserByParams(UserInfo user);
+	
+	String editUser(User user);
 	
 }

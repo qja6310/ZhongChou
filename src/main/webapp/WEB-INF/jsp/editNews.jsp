@@ -110,7 +110,6 @@
 							icon : 1,
 							time : 2000,
 						});
-						$("#btn").text("审核成功");
 						$("#btn").addClass("layui-btn-disabled");
 						$("#btn").attr("disabled",true);
 					} else {

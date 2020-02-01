@@ -11,9 +11,11 @@ import cn.com.newloading.bean.AuditLog;
 import cn.com.newloading.bean.DonationLog;
 import cn.com.newloading.bean.News;
 import cn.com.newloading.bean.Project;
+import cn.com.newloading.bean.User;
 import cn.com.newloading.dao.mapper.AuditLogMapper;
 import cn.com.newloading.dao.mapper.DonationLogMapper;
 import cn.com.newloading.dao.mapper.ProjectMapper;
+import cn.com.newloading.dao.mapper.UserMapper;
 import cn.com.newloading.service.ProjectService;
 import cn.com.newloading.utils.StringUtil;
 import cn.com.newloading.utils.TimeUtil;
@@ -27,11 +29,23 @@ public class ProjectServiceImpl implements ProjectService {
 	private AuditLogMapper auditMapper;
 	@Autowired
 	private DonationLogMapper dlMapper;
+	@Autowired
+	private UserMapper userMapper;
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public String addProject(Project project) {
-		
+		//判断是否具备发表项目条件
+		//判断用户是否是拉黑状态
+		User user = userMapper.queryUserInfo(project.getUserId());
+		if("2".equals(user.getStatus())) {
+			return "0004";
+		}
+		//判断前面的项目是否存在未完结
+		Integer count = proMapper.wajProByUserId(project.getUserId());
+		if(count != 0) {
+			return "0005";
+		}
 		//判断至少上传一张图片
 		String img = project.getDetails();
 		int index = img.indexOf("<img");

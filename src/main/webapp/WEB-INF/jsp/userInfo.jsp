@@ -23,7 +23,7 @@ body {
 </style>
 </head>
 <body>
-	<form class="layui-form fm" id="form4">
+	<form class="layui-form fm" lay-filter="form4">
 		<div class="layui-form-item">
 			<label class="layui-form-label">姓名:</label>
 			<div class="layui-input-inline">

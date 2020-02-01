@@ -5,7 +5,7 @@ package cn.com.newloading.bean;
  * @author 35030
  *
  */
-public class User extends Role{
+public class UserInfo extends PageBean{
 	
 	private String id;
 	private String name;
@@ -19,7 +19,7 @@ public class User extends Role{
 	
 	private String btgxmCount;//不通过项目的个数
 	
-	public User() {
+	public UserInfo() {
 		
 	}
 

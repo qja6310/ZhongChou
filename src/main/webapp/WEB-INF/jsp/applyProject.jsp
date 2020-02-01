@@ -29,7 +29,7 @@
 </style>
 </head>
 <body>
-	<form class="layui-form" action="">
+	<form class="layui-form" lay-filter="form4">
 		<div class="layui-container fm">
 			<div class="layui-row">
 				<div class="layui-col-md6">
@@ -161,12 +161,7 @@
 		//Demo
 		layui.use('form', function() {
 			var form = layui.form;
-
-			//监听提交
-			form.on('submit(formDemo)', function(data) {
-				layer.msg(JSON.stringify(data.field));
-				return false;
-			});
+			layui.form.render('radio','form4');
 		});
 		
 		var currTime = myformatter(new Date());

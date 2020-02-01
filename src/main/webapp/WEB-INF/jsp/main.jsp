@@ -58,6 +58,9 @@
 							<dd>
 								<a onclick="fundManage()">资金管理</a>
 							</dd>
+							<dd>
+								<a onclick="userManage()">用户管理</a>
+							</dd>
 						</dl>
 					</c:if>
 					<c:if test="${user.role == 'u' }">
@@ -212,6 +215,9 @@
 		}
 		function fundManage(){
 			$('#content').load('../fund/fundManage');
+		}
+		function userManage(){
+			$('#content').load('../user/userManage');
 		}
 		function myFundManage(){
 			var userId = $("#roleId").val();

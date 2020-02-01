@@ -1,13 +1,19 @@
 package cn.com.newloading.dao.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.UpdateProvider;
 
 import cn.com.newloading.bean.User;
+import cn.com.newloading.bean.UserInfo;
+import cn.com.newloading.dao.provider.UserProvider;
 
 @Mapper
 public interface UserMapper {
@@ -36,8 +42,8 @@ public interface UserMapper {
 	 * @param userId
 	 * @return
 	 */
-	@Update("update t_user set name = #{name},age = #{age},sex = #{sex},phone = #{phone},password = #{password} where id = #{id}")
-	Integer saveUpdate(User user);
+	@UpdateProvider(type = UserProvider.class,method = "editUser")
+	Integer editUser(User user);
 	
 	/**
 	 * 新增用户信息
@@ -58,5 +64,14 @@ public interface UserMapper {
 	
 	@Select("select count(*) from t_user where phone = #{phone} and id != #{id}")
 	int userTotalByPhone2(@Param("phone")String phone,@Param("id")String id);
+	
+	@SelectProvider(type = UserProvider.class,method = "getTotal")
+	int getTotal(User user);
+	
+	@SelectProvider(type = UserProvider.class,method = "queryUserByParams")
+	List<User> queryUserByParams(UserInfo user);
+	
+	@Select("SELECT count(*) from t_project where userId = #{userId} and refuseCount = 3")
+	int btgxmCount(@Param("userId")String userId);
 	
 }
