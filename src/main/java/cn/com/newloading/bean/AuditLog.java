@@ -5,7 +5,7 @@ public class AuditLog {
 	private String id;
 	private String adminId;
 	private String projectId;
-	private String explain;
+	private String explains;
 	private String status;
 	private String auditTime;
 	
@@ -37,12 +37,12 @@ public class AuditLog {
 		this.projectId = projectId;
 	}
 
-	public String getExplain() {
-		return explain;
+	public String getExplains() {
+		return explains;
 	}
 
-	public void setExplain(String explain) {
-		this.explain = explain;
+	public void setExplains(String explains) {
+		this.explains = explains;
 	}
 
 	public String getStatus() {

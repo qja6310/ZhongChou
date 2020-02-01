@@ -17,9 +17,9 @@ import cn.com.newloading.dao.provider.ProjectProvider;
 public interface ProjectMapper {
 
 	@Insert("insert into t_project(patientName,patientAge,patientSex,hospital,phone,targetMoney,currentMoney,endTime,"
-			+ "nowAddress,identityNum,details,applyTime,userId,status,refuseCount) "
+			+ "nowAddress,identityNum,details,applyTime,userId,status,refuseCount,totalMoney) "
 			+ "values (#{patientName},#{patientAge},#{patientSex},#{hospital},#{phone},#{targetMoney},#{currentMoney},#{endTime},"
-			+ "#{nowAddress},#{identityNum},#{details},#{applyTime},#{userId},#{status},#{refuseCount})")
+			+ "#{nowAddress},#{identityNum},#{details},#{applyTime},#{userId},#{status},#{refuseCount},#{totalMoney})")
 	@Options(useGeneratedKeys = true,keyProperty = "id",keyColumn = "id")
 	Integer addProject(Project project);
 

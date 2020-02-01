@@ -8,7 +8,7 @@ import cn.com.newloading.bean.AuditLog;
 @Mapper
 public interface AuditLogMapper {
 
-	@Insert("insert into t_audit_log (adminId,projectId,explain,status,auditTime) values (#{adminId},#{projectId},#{explain},#{status},#{auditTime})")
+	@Insert("insert into t_audit_log (adminId,projectId,explains,status,auditTime) values (#{adminId},#{projectId},#{explains},#{status},#{auditTime})")
 	Integer addAuditLog(AuditLog auidtLog);
 	
 }

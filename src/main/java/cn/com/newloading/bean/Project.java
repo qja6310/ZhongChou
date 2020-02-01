@@ -18,6 +18,7 @@ public class Project extends PageBean{
 	private String userId;
 	private String status;
 	private String refuseCount;
+	private String totalMoney;
 	
 	private String userName;
 	private String userPhone;
@@ -155,6 +156,14 @@ public class Project extends PageBean{
 
 	public void setEndApplyTime(String endApplyTime) {
 		this.endApplyTime = endApplyTime;
+	}
+
+	public String getTotalMoney() {
+		return totalMoney;
+	}
+
+	public void setTotalMoney(String totalMoney) {
+		this.totalMoney = totalMoney;
 	}
 	
 	

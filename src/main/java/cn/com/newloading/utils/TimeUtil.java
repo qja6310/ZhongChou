@@ -46,4 +46,31 @@ public class TimeUtil {
 		}
 		return time;
 	}
+	
+	/*时间转流水号*/
+	public static String seqNum() {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+		String dateString = formatter.format(new Date());
+		return dateString;
+	}
+	
+	/* 判断是否过去日期 */
+	public static boolean judgeIsPast(String oldTime) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		try {
+			Date oldDate = sdf.parse(oldTime);
+			Date newOld = new Date();
+		    newOld = sdf.parse(sdf.format(newOld));
+		    int flag = oldDate.compareTo(newOld);
+		    if(flag <= 0) {
+		    	return true;
+		    }else {
+		    	return false;
+		    }
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+	}
 }

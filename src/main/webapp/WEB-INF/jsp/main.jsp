@@ -26,6 +26,11 @@
 </head>
 <body style="background-color: #eeeeee;">
 	<input type="hidden" id="roleId" value="${user.id }">
+	<input type="hidden" id="jump" value="${jump }">
+	<input type="hidden" id="domoney" value="${money }">
+	<input type="hidden" id="retCode" value="${retCode }">
+	<input type="hidden" id="retMsg" value="${retMsg }">
+	<input type="hidden" id="projectId" value="${proId }">
 	<div class="layui-layout layui-layout-admin">
 		<input type="hidden" id="userId" value="${user.id }" />
 		<div class="layui-header">
@@ -44,11 +49,14 @@
 						</dl>
 					</c:if>
 				</li>
-				<li class="layui-nav-item"><a href="">筹款项目</a>
+				<li class="layui-nav-item"><a onclick="projects()">筹款项目</a>
 					<c:if test="${user.role == 'a' }">
 						<dl class="layui-nav-child">
 							<dd>
 								<a onclick="projectManage()">项目管理</a>
+							</dd>
+							<dd>
+								<a onclick="fundManage()">资金管理</a>
 							</dd>
 						</dl>
 					</c:if>
@@ -56,6 +64,12 @@
 						<dl class="layui-nav-child">
 							<dd>
 								<a onclick="applyProject()">项目申报</a>
+							</dd>
+							<dd>
+								<a onclick="myPro()">我的项目</a>
+							</dd>
+							<dd>
+								<a onclick="myFundManage()">提现申请</a>
 							</dd>
 						</dl>
 					</c:if>
@@ -155,7 +169,11 @@
 	</script>
 	<script type="text/javascript">
 		$(document).ready(function () {
-			news();
+			if($("#jump").val() == 'donation'){
+				jumpDonation();
+			}else{
+				news();
+			}
 	    });
 		function updateUser(){
 			var userId = $("#roleId").val();
@@ -175,8 +193,29 @@
 		function news(){
 			$('#content').load('../news/');
 		}
+		function projects(){
+			$('#content').load('../projects/');
+		}
 		function projectManage(){
 			$('#content').load('../projects/projectManage');
+		}
+		function myPro(){
+			var userId = $("#roleId").val();
+			$('#content').load('../projects/myProject?userId='+userId);
+		}
+		function jumpDonation(){
+			var proId = $("#projectId").val();
+			var retCode = $("#retCode").val();
+			var retMsg = $("#retMsg").val();
+			var money = $("#domoney").val();
+			$('#content').load('../projects/details2?id='+proId+'&retCode='+retCode+'&retMsg='+retMsg+'&money='+money);
+		}
+		function fundManage(){
+			$('#content').load('../fund/fundManage');
+		}
+		function myFundManage(){
+			var userId = $("#roleId").val();
+			$('#content').load('../fund/myFundManage?userId='+userId);
 		}
 		//菜单显示隐藏
 		/* function isShowLeft(index){
@@ -192,10 +231,10 @@
 		} */
 		
 		function logout(){
-			layer.confirm('真的要离开嘛?', {icon: 3, title:'提示'}, function(index){
+			//layer.confirm('真的要离开嘛?', {icon: 3, title:'提示'}, function(index){
 				window.location.href="../logout";
-				layer.close(index);
-			});
+				//layer.close(index);
+			//});
 		}
 	</script>
 </body>

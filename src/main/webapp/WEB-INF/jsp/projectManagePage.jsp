@@ -19,17 +19,20 @@
 				<td>${item.phone }</td>
 				<td>
 					<c:if test="${item.status == 1}">待审核</c:if>
+					<c:if test="${item.status == 2}">审核通过</c:if>
+					<c:if test="${item.status == 3}">审核未通过</c:if>					
+					<c:if test="${item.status == 0}">完结</c:if>					
 				</td>
 				<td>${item.applyTime }</td>
 				<td>${item.refuseCount }</td>
 				<td class="center">
-					<c:if test="${item.refuseCount < 3}">
+					<c:if test="${item.refuseCount < 3 && item.status == 1}">
 						<button type="button" class="layui-btn layui-btn-sm layui-btn-warm" onclick="audit('${item.id}')">
 							<i class="layui-icon layui-icon-auz"></i> 审核
 						</button>
 					</c:if>
-					<button type="button" class="layui-btn layui-btn-sm layui-btn-danger" onclick="delNews('${item.id}')">
-						<i class="layui-icon layui-icon-delete"></i> 删除
+					<button type="button" class="layui-btn layui-btn-sm layui-btn-normal" onclick="proDetails('${item.id}')">
+						<i class="layui-icon layui-icon-about"></i> 详情
 					</button>
 				</td>
 			</tr>

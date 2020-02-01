@@ -29,10 +29,29 @@ public class ProjectController extends BaseController {
 	
 	@RequestMapping("/myProject")
 	public ModelAndView myProject(HttpServletRequest request,Model model) {
-		ModelAndView mav = new ModelAndView("myProject");
+		ModelAndView mav = new ModelAndView("myPro");
+		String userId = request.getParameter("userId");
+		if(StringUtil.isBlank(userId)) {
+			mav = new ModelAndView("index");
+		}
+		Project pro = new Project();
+		pro.setUserId(userId);
+		List<Project> proList = proService.queryProjectByParams(pro);
+		model.addAttribute("proList", proList);
 		return mav;
 	}
 	
+	@RequestMapping("/toEditPro")
+	public ModelAndView toEditPro(HttpServletRequest request,Model model) {
+		ModelAndView mav = new ModelAndView("editPro");
+		String id = request.getParameter("id");
+		if(StringUtil.isBlank(id)) {
+			mav = new ModelAndView("index");
+		}
+		Project pro = proService.queryProjectById(id);
+		model.addAttribute("pro", pro);
+		return mav;
+	}
 	@RequestMapping("/applyProject")
 	public ModelAndView applyProject(HttpServletRequest request,Model model) {
 		ModelAndView mav = new ModelAndView("applyProject");
@@ -122,10 +141,6 @@ public class ProjectController extends BaseController {
 		String phone = request.getParameter("phone");
 		String status = request.getParameter("status");
 		String details = request.getParameter("details");
-//		String applyTime = request.getParameter("applyTime");
-//		String[] at = applyTime.split("~");
-//		String currPage = request.getParameter("currPage");
-//		String limit = request.getParameter("limit");
 		String startApplyTime = request.getParameter("startApplyTime");
 		String endApplyTime = request.getParameter("endApplyTime");
 		Project pro = new Project();
@@ -158,8 +173,6 @@ public class ProjectController extends BaseController {
 		String status = request.getParameter("status");
 		String startApplyTime = request.getParameter("startApplyTime");
 		String endApplyTime = request.getParameter("endApplyTime");
-//		String applyTime = request.getParameter("applyTime");
-//		String[] at = applyTime.split("~");
 		String details = request.getParameter("details");
 		String currPage = request.getParameter("currPage");
 		String limit = request.getParameter("limit");
@@ -212,8 +225,138 @@ public class ProjectController extends BaseController {
 		auditLog.setAdminId(admin.getId());
 		auditLog.setProjectId(id);
 		auditLog.setStatus(status);
-		auditLog.setExplain(explain);
+		auditLog.setExplains(explain);
 		String retcode = proService.auditProject(auditLog);
+		return responseMsg(retcode,"PRO");
+	}
+	
+	@RequestMapping("/")
+	public ModelAndView index(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("projects");
+		return mav;
+	}
+	
+	@RequestMapping("/getCount")
+	@ResponseBody
+	public JSONObject getCount(HttpServletRequest request) {
+		String details = request.getParameter("details");
+		Project pro = new Project();
+		pro.setDetails(details);
+		pro.setStatus("2");
+		int total = proService.queryProjectCountByParams(pro);
+		JSONObject json = new JSONObject();
+		json.put("total",total);
+		return json;
+	}
+	
+	@RequestMapping("/projectsPage")
+	public ModelAndView projectsPage(HttpServletRequest request,Model model) {
+		ModelAndView mav = new ModelAndView("projectsPage");
+		String details = request.getParameter("details");
+		String currPage = request.getParameter("currPage");
+		String limit = request.getParameter("limit");
+		Project pro = new Project();
+		pro.setStatus("2");
+		pro.setDetails(details);
+		pro.setCurrent(Integer.valueOf(currPage));
+		pro.setLimit(Integer.valueOf(limit));
+		pro.setStart((Integer.valueOf(currPage) - 1) * Integer.valueOf(limit));
+		List<Project> proList = proService.queryProjectByParams(pro);
+		model.addAttribute("proList", proList);
+		return mav;
+	}
+	
+	@RequestMapping("details")
+	public ModelAndView details(HttpServletRequest request,Model model) {
+		ModelAndView mav = new ModelAndView("proDetails");
+		String id = request.getParameter("id");
+		if(StringUtil.isBlank(id)) {
+			mav = new ModelAndView("index");
+		}
+		Project pro = proService.queryProjectById(id);
+		model.addAttribute("pro", pro);
+		return mav;
+	}
+	@RequestMapping("details2")
+	public ModelAndView details2(HttpServletRequest request,Model model) {
+		ModelAndView mav = new ModelAndView("proDetails2");
+		String id = request.getParameter("id");
+		if(StringUtil.isBlank(id)) {
+			mav = new ModelAndView("index");
+		}
+		Project pro = proService.queryProjectById(id);
+		model.addAttribute("pro", pro);
+		model.addAttribute("retCode", request.getParameter("retCode"));
+		model.addAttribute("retMsg", request.getParameter("retMsg"));
+		model.addAttribute("money", request.getParameter("money"));
+		return mav;
+	}
+	
+	@RequestMapping("/doEditProject")
+	@ResponseBody
+	public JSONObject doEditProject(HttpServletRequest request) {
+		String id = request.getParameter("id");
+		if(StringUtil.isBlank(id)) {
+			return responseMsg("0002","PRO");
+		}
+		String name = request.getParameter("name");
+		if(StringUtil.isBlank(name)) {
+			return responseMsg("0002","PRO");
+		}
+		String age = request.getParameter("age");
+		if(StringUtil.isBlank(age)) {
+			return responseMsg("0002","PRO");
+		}
+		String sex = request.getParameter("sex");
+		if(StringUtil.isBlank(sex)) {
+			return responseMsg("0002","PRO");
+		}
+		String phone = request.getParameter("phone");
+		if(StringUtil.isBlank(phone)) {
+			return responseMsg("0002","PRO");
+		}
+		String identityNum = request.getParameter("identityNum");
+		if(StringUtil.isBlank(identityNum)) {
+			return responseMsg("0002","PRO");
+		}
+		String targetMoney = request.getParameter("targetMoney");
+		if(StringUtil.isBlank(targetMoney)) {
+			return responseMsg("0002","PRO");
+		}
+		String hospital = request.getParameter("hospital");
+		if(StringUtil.isBlank(hospital)) {
+			return responseMsg("0002","PRO");
+		}
+		String endTime = request.getParameter("endTime");
+		if(StringUtil.isBlank(endTime)) {
+			return responseMsg("0002","PRO");
+		}
+		String nowAddress = request.getParameter("nowAddress");
+		if(StringUtil.isBlank(nowAddress)) {
+			return responseMsg("0002","PRO");
+		}
+		String details = request.getParameter("details");
+		if(StringUtil.isBlank(details)) {
+			return responseMsg("0002","PRO");
+		}
+		User user = (User) request.getSession().getAttribute("user");
+		if(user == null) {
+			return responseMsg("0002","PRO");
+		}
+		Project project = new Project();
+		project.setId(id);
+		project.setUserId(user.getId());
+		project.setPatientName(name);
+		project.setPatientAge(age);
+		project.setPatientSex(sex);
+		project.setPhone(phone);
+		project.setEndTime(endTime);
+		project.setIdentityNum(identityNum);
+		project.setHospital(hospital);
+		project.setTargetMoney(targetMoney);
+		project.setNowAddress(nowAddress);
+		project.setDetails(details);
+		String retcode = proService.editProject(project);
 		return responseMsg(retcode,"PRO");
 	}
 }

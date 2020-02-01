@@ -34,55 +34,16 @@
 		<div class="layui-row">
 			<div class="layui-col-md3">
 				<div class="layui-form-item">
-					<label class="layui-form-label lw">申请人</label>
-					<div class="layui-input-inline">
-						<input type="text" id="userName" name="userName"
-							class="layui-input" maxlength="16">
-					</div>
-				</div>
-			</div>
-			<div class="layui-col-md3">
-				<div class="layui-form-item">
-					<label class="layui-form-label lw">患者姓名</label>
-					<div class="layui-input-inline">
-						<input type="text" id="patientName" name="patientName"
-							class="layui-input" maxlength="16">
-					</div>
-				</div>
-			</div>
-			<div class="layui-col-md3">
-				<div class="layui-form-item">
-					<label class="layui-form-label lw">患者性别</label>
-					<div class="layui-input-inline">
-						<select id="patientSex" name="patientSex" lay-verify="required">
-							<option value=""></option>
-							<option value="1">男</option>
-							<option value="0">女</option>
-						</select>
-					</div>
-				</div>
-			</div>
-			<div class="layui-col-md3">
-				<div class="layui-form-item">
-					<label class="layui-form-label lw">联系电话</label>
-					<div class="layui-input-inline">
-						<input type="text" id="phone" name="phone" class="layui-input"
-							maxlength="16">
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="layui-row">
-			<div class="layui-col-md3">
-				<div class="layui-form-item">
 					<label class="layui-form-label lw">状态</label>
 					<div class="layui-input-inline">
 						<select id="status" name="status" lay-verify="required">
 							<option value=""></option>
-							<option value="1">待审核</option>
-							<option value="2">审核通过</option>
-							<option value="3">审核未通过</option>
-							<option value="0">完结</option>
+							<option value="1">提现待审核</option>
+							<option value="2">提现审核通过</option>
+							<option value="3">提现审核未通过</option>
+							<option value="4">凭证待审核</option>
+							<option value="5">凭证审核通过</option>
+							<option value="6">凭证审核未通过</option>
 						</select>
 					</div>
 				</div>
@@ -100,7 +61,7 @@
 				<div class="layui-form-item">
 					<label class="layui-form-label lw">关键字查询</label>
 					<div class="layui-input-inline" style="width: 75%">
-						<input type="text" id="details" name="details" class="layui-input">
+						<input type="text" id="keyword" name="keyword" class="layui-input">
 					</div>
 				</div>
 			</div>
@@ -127,14 +88,11 @@
 					<th style="text-align: center;width:4%;">序号</th>
 					<th style="text-align: center;width: 8%;">申请人</th>
 					<th style="text-align: center;width: 8%;">患者</th>
-					<th style="text-align: center;width: 6%;">患者年龄</th>
-					<th style="text-align: center;width: 6%;">患者性别</th>
-					<th style="text-align: center;">目标金额</th>
-					<th style="text-align: center;">截止捐款时间</th>
 					<th style="text-align: center;">联系电话</th>
+					<th style="text-align: center;">当前金额(元)</th>
+					<th style="text-align: center;">提现金额(元)</th>
 					<th style="text-align: center;">状态</th>
 					<th style="text-align: center;">申请时间</th>
-					<th style="text-align: center;width: 8%;">审核不过(次)</th>
 					<th style="text-align: center;">操作</th>
 				</tr>
 			</thead>
@@ -170,7 +128,7 @@
 			//newsManagePage();
 		});
 
-		function audit(id) {
+		function auditWPass(id) {
 			if(id == '' || id == undefined){
 				layer.msg("缺少关键参数", {
 					icon : 2,
@@ -178,25 +136,79 @@
 				});
 				return;
 			}
-			$('#content').load('../projects/toAudit?id='+id);
+			$.ajax({
+				type : "post",
+				url : "../fund/auditWPass",
+				data : {
+					'id' : id
+				},
+				dataType : "json",
+				success : function(data) {
+					var retCode = data.retCode;
+					if (retCode == "0000") {
+						layer.msg(data.retMsg, {
+							icon : 1,
+							time : 2000,
+						});
+						getTotal(-9999);
+					} else {
+						layer.msg(data.retMsg, {
+							icon : 2,
+							time : 2000,
+						});
+					}
+				},
+				error : function(data) {
+					layer.msg("操作失败", {
+						icon : 2,
+						time : 2000,
+					});
+					return;
+				}
+			});
 		}
-		
-		function proDetails(id){
+
+		function auditWNotPass(id) {
 			if(id == '' || id == undefined){
-				layer.msg("缺失关键参数", {
+				layer.msg("缺少关键参数", {
 					icon : 2,
 					time : 2000,
 				});
 				return;
 			}
-			$('#content').load('../projects/details?id='+id);
+			$.ajax({
+				type : "post",
+				url : "../fund/auditWNotPass",
+				data : {
+					'id' : id
+				},
+				dataType : "json",
+				success : function(data) {
+					var retCode = data.retCode;
+					if (retCode == "0000") {
+						layer.msg(data.retMsg, {
+							icon : 1,
+							time : 2000,
+						});
+						getTotal(-9999);
+					} else {
+						layer.msg(data.retMsg, {
+							icon : 2,
+							time : 2000,
+						});
+					}
+				},
+				error : function(data) {
+					layer.msg("操作失败", {
+						icon : 2,
+						time : 2000,
+					});
+					return;
+				}
+			});
 		}
-
+		
 		function projectManagePage() {
-			var userName = $("#userName").val();
-			var patientName = $("#patientName").val();
-			var patientSex = $("#patientSex").val();
-			var phone = $("#phone").val();
 			var status = $("#status").val();
 			var applyTime = $("#applyTime").val();
 			var atime = applyTime.split("~");
@@ -206,15 +218,12 @@
 				startApplyTime = atime[0].trim();
 				endApplyTime = atime[1].trim();
 			}
-
-			var details = $("#details").val();
-			$('#projectsDiv').load('../projects/projectManagePage?userName=' + userName
-							+ '&patientName=' + patientName + '&currPage='
-							+ currPage + '&limit=' + limit + '&patientSex='
-							+ patientSex + '&phone=' + phone + '&status='
+			var keyword = $("#keyword").val();
+			$('#projectsDiv').load('../fund/fundManagePage?status='
 							+ status + '&startApplyTime=' + startApplyTime
-							+ '&endApplyTime=' + endApplyTime + '&details='
-							+ details);
+							+ '&endApplyTime=' + endApplyTime + '&keyword='
+							+ keyword  + '&currPage='
+							+ currPage + '&limit=' + limit);
 		}
 
 		//查询数量的总数
@@ -222,10 +231,6 @@
 			if (index == 1) {
 				currPage = 1;
 			}
-			var userName = $("#userName").val();
-			var patientName = $("#patientName").val();
-			var patientSex = $("#patientSex").val();
-			var phone = $("#phone").val();
 			var status = $("#status").val();
 			var applyTime = $("#applyTime").val();
 			var atime = applyTime.split("~");
@@ -235,19 +240,15 @@
 				startApplyTime = atime[0].trim();
 				endApplyTime = atime[1].trim();
 			}
-			var details = $("#details").val();
+			var keyword = $("#keyword").val();
 			$.ajax({
 				type : "post",
-				url : "../projects/getTotal",
+				url : "../fund/getTotal",
 				data : {
-					'userName' : userName,
-					'patientName' : patientName,
-					'patientSex' : patientSex,
-					'phone' : phone,
 					'status' : status,
 					'startApplyTime' : startApplyTime,
 					'endApplyTime' : endApplyTime,
-					'details' : details
+					'keyword' : keyword
 				},
 				dataType : "json",
 				success : function(data) {
@@ -277,6 +278,18 @@
 					return;
 				}
 			});
+		}
+		
+		//凭证审核详情
+		function pzDetails(id){
+			if(id == '' || id == undefined){
+				layer.msg("缺失主要参数", {
+					icon : 2,
+					time : 2000,
+				});
+				return;
+			}
+			$('#content').load('../fund/pzDetails?wlId='+id);
 		}
 	</script>
 </body>

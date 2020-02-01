@@ -16,4 +16,8 @@ public interface ProjectService {
 	Project queryProjectById(String id);
 	
 	String auditProject(AuditLog auditLog);
+	
+	String editProject(Project project);
+	
+	String donation(String proId,String money,String userId);
 }

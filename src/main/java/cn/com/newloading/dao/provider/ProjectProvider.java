@@ -12,8 +12,8 @@ public class ProjectProvider {
 	
 	public String queryProjectByParams(Project project) {
 		SQL sql = new SQL();
-		sql.SELECT("u.name userName,p.id,p.patientName,p.patientAge,p.patientSex,p.targetMoney,p.endTime," + 
-				"p.phone,p.`status`,p.applyTime,p.refuseCount");
+		sql.SELECT("u.name userName,p.id,p.patientName,p.patientAge,p.patientSex,p.details,p.currentMoney,p.targetMoney,p.endTime," + 
+				"p.phone,p.`status`,p.applyTime,p.refuseCount,p.totalMoney");
 		sql.FROM(T_PROJECT + " p inner join " + T_USER + " u on u.id = p.userId");
 		if(StringUtil.isNotBlank(project.getUserName())) {
 			project.setUserName("%"+project.getUserName()+"%");
@@ -43,7 +43,14 @@ public class ProjectProvider {
 			project.setDetails("%"+project.getDetails()+"%");
 			sql.WHERE("p.details like #{details}");
 		}
-		sql.ORDER_BY("p.applyTime desc limit #{start},#{limit}");
+		if(StringUtil.isNotBlank(project.getUserId())) {
+			sql.WHERE("p.userId = #{userId}");
+		}
+		String desc = "p.applyTime desc";
+		if(project.getStart() != 0 && project.getLimit() !=0) {
+			desc += " limit #{start},#{limit}";
+		}
+		sql.ORDER_BY(desc);
 		return sql.toString();
 	}
 	
@@ -87,6 +94,45 @@ public class ProjectProvider {
 		sql.UPDATE(T_PROJECT);
 		if(StringUtil.isNotBlank(project.getStatus())) {
 			sql.SET("status = #{status}");
+		}
+		if(StringUtil.isNotBlank(project.getRefuseCount())) {
+			sql.SET("refuseCount = #{refuseCount}");
+		}
+		if(StringUtil.isNotBlank(project.getPatientName())) {
+			sql.SET("patientName = #{patientName}");
+		}
+		if(StringUtil.isNotBlank(project.getPatientAge())) {
+			sql.SET("patientAge = #{patientAge}");
+		}
+		if(StringUtil.isNotBlank(project.getPatientSex())) {
+			sql.SET("patientSex = #{patientSex}");
+		}
+		if(StringUtil.isNotBlank(project.getPhone())) {
+			sql.SET("phone = #{phone}");
+		}
+		if(StringUtil.isNotBlank(project.getIdentityNum())) {
+			sql.SET("identityNum = #{identityNum}");
+		}
+		if(StringUtil.isNotBlank(project.getTargetMoney())) {
+			sql.SET("targetMoney = #{targetMoney}");
+		}
+		if(StringUtil.isNotBlank(project.getHospital())) {
+			sql.SET("hospital = #{hospital}");
+		}
+		if(StringUtil.isNotBlank(project.getEndTime())) {
+			sql.SET("endTime = #{endTime}");
+		}
+		if(StringUtil.isNotBlank(project.getNowAddress())) {
+			sql.SET("nowAddress = #{nowAddress}");
+		}
+		if(StringUtil.isNotBlank(project.getDetails())) {
+			sql.SET("details = #{details}");
+		}
+		if(StringUtil.isNotBlank(project.getTotalMoney())) {
+			sql.SET("totalMoney = #{totalMoney}");
+		}
+		if(StringUtil.isNotBlank(project.getCurrentMoney())) {
+			sql.SET("currentMoney = #{currentMoney}");
 		}
 		sql.WHERE("id = #{id}");
 		return sql.toString();

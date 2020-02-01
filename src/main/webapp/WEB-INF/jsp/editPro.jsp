@@ -30,13 +30,14 @@
 </head>
 <body>
 	<form class="layui-form" action="">
+		<input type="hidden" id="id" value="${pro.id }" />
 		<div class="layui-container fm">
 			<div class="layui-row">
 				<div class="layui-col-md6">
 					<div class="layui-form-item">
 						<label class="layui-form-label lw">患者姓名</label>
 						<div class="layui-input-inline">
-							<input type="text" id="name" name="name" class="layui-input" maxlength="16">
+							<input type="text" id="name" name="name" value="${pro.patientName }" class="layui-input" maxlength="16">
 						</div>
 					</div>
 				</div>
@@ -44,7 +45,7 @@
 					<div class="layui-form-item">
 						<label class="layui-form-label lw">患者年龄</label>
 						<div class="layui-input-inline">
-							<input type="text" id="age" name="age" class="layui-input" maxlength="3" style="text-align: right;">
+							<input type="text" id="age" name="age" value="${pro.patientAge }" class="layui-input" maxlength="3" style="text-align: right;">
 						</div>
 						<div class="layui-form-mid layui-word-aux">岁</div>
 					</div>
@@ -55,8 +56,8 @@
 					<div class="layui-form-item">
 						<label class="layui-form-label lw">患者性别</label>
 						<div class="layui-input-inline">
-							<input type="radio" name="sex" value="1" title="男" checked>
-							<input type="radio" name="sex" value="0" title="女">
+							<input type="radio" name="sex" value="1" title="男" <c:if test="${pro.patientSex == 1 }">checked</c:if>>
+							<input type="radio" name="sex" value="0" title="女" <c:if test="${pro.patientSex == 0 }">checked</c:if>>
 						</div>
 					</div>
 				</div>
@@ -64,7 +65,7 @@
 					<div class="layui-form-item">
 						<label class="layui-form-label lw">联系号码</label>
 						<div class="layui-input-inline">
-							<input type="text" id="phone" name="phone" class="layui-input" maxlength="11" 
+							<input type="text" id="phone" name="phone" value="${pro.phone }" class="layui-input" maxlength="11" 
 							oninput="value=value.replace(/[^\d]|^[0]/g,'')">
 						</div>
 					</div>
@@ -75,7 +76,7 @@
 					<div class="layui-form-item">
 						<label class="layui-form-label lw">身份证号</label>
 						<div class="layui-input-inline">
-							<input type="text" id="identityNum" name="identityNum" class="layui-input" maxlength="18">
+							<input type="text" id="identityNum" name="identityNum" value="${pro.identityNum }" class="layui-input" maxlength="18">
 						</div>
 					</div>
 				</div>
@@ -83,7 +84,7 @@
 					<div class="layui-form-item">
 						<label class="layui-form-label lw">目标金额</label>
 						<div class="layui-input-inline">
-							<input type="text" id="targetMoney" name="targetMoney" class="layui-input"
+							<input type="text" id="targetMoney" name="targetMoney" class="layui-input" value="${pro.targetMoney }"
 							 onkeyup="var p2 = parseFloat(value).toFixed(2);value = p2>=0?(/\.0?$/.test(value)?value:p2.replace(/0$/,'').replace(/\.0$/,'')):''" 
 							 onblur="value = value.replace(/\.0*$/,'')"
 							 maxlength="10" style="text-align: right;">
@@ -97,7 +98,7 @@
 					<div class="layui-form-item">
 						<label class="layui-form-label lw">就诊医院</label>
 						<div class="layui-input-inline">
-							<input type="text" id="hospital" name="hospital" class="layui-input" maxlength="255"
+							<input type="text" id="hospital" name="hospital" value="${pro.hospital }" class="layui-input" maxlength="255"
 								style="width: 400px;">
 						</div>
 					</div>
@@ -106,7 +107,7 @@
 					<div class="layui-form-item">
 						<label class="layui-form-label lw">捐款截止日期</label>
 						<div class="layui-input-inline">
-							<input type="text" class="layui-input" id="endTime" readonly>
+							<input type="text" class="layui-input" id="endTime" value="${pro.endTime }" readonly>
 						</div>
 					</div>
 				</div>
@@ -117,7 +118,7 @@
 						<label class="layui-form-label lw">现住址</label>
 						<div class="layui-input-inline">
 							<textarea id="nowAddress" name="nowAddress" placeholder="请输入地址" class="layui-textarea"
-								style="width: 750px;" maxlength="255"></textarea>
+								style="width: 750px;" maxlength="255">${pro.nowAddress }</textarea>
 						</div>
 					</div>
 				</div>
@@ -131,12 +132,12 @@
 				</label>
 				<div class="layui-input-inline" style="width: 1000px;">
 					<div style="margin-bottom: 0; background-color: white;">
-						<textarea id="asdfg" style="display: none;"></textarea>
+						<textarea id="asdfg" style="display: none;">${pro.details }</textarea>
 					</div>
 				</div>
 			</div>
 			<div class="layui-form-item" style="text-align: end;">
-				<button type="button" class="layui-btn" onclick="addProject()" id="btn">
+				<button type="button" class="layui-btn" onclick="editProject()" id="btn">
 					<i class="layui-icon layui-icon-ok"></i> 确认提交
 				</button>
 			</div>
@@ -229,7 +230,15 @@
 			obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3'); //只能输入两个小数
 		}
 		//提交
-		function addProject(){
+		function editProject(){
+			var id = $("#id").val();
+			if(id == '' || id == undefined){
+				layer.msg("缺失关键字段", {
+					icon : 2,
+					time : 2000,
+				});
+				return;
+			}
 			var name = $("#name").val().trim();
 			if(name == '' || name == undefined){
 				layer.msg("姓名不可为空", {
@@ -305,8 +314,9 @@
 			}
 			$.ajax({
 				type : "post",
-				url : "../projects/doAddProject",
+				url : "../projects/doEditProject",
 				data : {
+					"id" : id,
 					"name" : name,
 					"age" : age,
 					"sex" : sex,

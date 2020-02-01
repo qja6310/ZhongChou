@@ -15,25 +15,22 @@
 </style>
 </head>
 <body>
-	<input id="newsId" type="hidden" value="${news.id }"/>
+	<input type="hidden" id="wlId" value="${wl.id }"/>
 	<div class="layui-form">
 		<div class="layui-form-item">
-			<label class="layui-form-label" style="width: 100px;">新闻标题</label>
-			<div class="layui-input-block">
-				<input type="text" name="title" id="title" required lay-verify="required" value="${news.title }"
-					placeholder="请输入标题" autocomplete="off" class="layui-input" maxlength="50">
-			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label" style="width: 100px;">新闻内容</label>
+			<label class="layui-form-label" style="width: 100px;">填写凭证</label>
 			<div class="layui-input-block">
 				<div style="margin-bottom: 0;background-color: white;">
-					<textarea id="asdfg" style="display: none;">${news.content }</textarea>
+					<textarea id="asdfg" style="display: none;">
+						<c:if test="${wl.evidence != '' && wl.evidence != undefined && wl.evidence != null}">
+							${wl.evidence}
+						</c:if>
+					</textarea>
 				</div>
 			</div>
 		</div>
 		<div class="layui-form-item" style="text-align: end;">
-			<button type="button" class="layui-btn" onclick="editNews()" id="btn"><i class="layui-icon layui-icon-add-1"></i> 发布新闻</button>
+			<button type="button" class="layui-btn" onclick="tjpz()" id="btn"><i class="layui-icon layui-icon-add-1"></i> 提交凭证</button>
 		</div>
 	</div>
 	<script>
@@ -69,26 +66,11 @@
 				]
 			});
 		});
-		function editNews(){
-			var newsId = $("#newsId").val();
-			if (newsId == '' || newsId == undefined) {
-				layer.msg("缺失关键参数", {
-					icon : 2,
-					time : 2000,
-				});
-				return;
-			}
-			var title = $("#title").val();
-			if (title == '' || title == undefined) {
-				layer.msg("标题不为空", {
-					icon : 2,
-					time : 2000,
-				});
-				return;
-			}
-			var newsContent = layedit.getContent(index);
-			if (newsContent == '' || newsContent == undefined) {
-				layer.msg("新闻内容不为空", {
+		function tjpz(){
+			var wlId = $("#wlId").val();
+			var evidence = layedit.getContent(index);
+			if (evidence == '' || evidence == undefined) {
+				layer.msg("提交内容不可为空", {
 					icon : 2,
 					time : 2000,
 				});
@@ -96,21 +78,19 @@
 			}
 			$.ajax({
 				type : "post",
-				url : "../news/doEditNews",
+				url : "../fund/tjpz",
 				data : {
-					"id" : newsId,
-					"title" : title,
-					"content" : newsContent
+					"wlId" : wlId,
+					"evidence" : evidence
 				},
 				dataType : "json",
 				success : function(data) {
 					var retCode = data.retCode;
-					if (retCode == "0010") {
+					if (retCode == "0000") {
 						layer.msg(data.retMsg, {
 							icon : 1,
 							time : 2000,
 						});
-						$("#btn").text("审核成功");
 						$("#btn").addClass("layui-btn-disabled");
 						$("#btn").attr("disabled",true);
 					} else {

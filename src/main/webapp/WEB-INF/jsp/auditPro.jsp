@@ -72,7 +72,7 @@
 			<div class="layui-form-item">
 				<label class="layui-form-label" style="width: 90px;">审核结果</label>
 				<div class="layui-input-block" id="status">
-					<input type="radio" name="status" value="1" title="审核不过" checked>
+					<input type="radio" name="status" value="3" title="审核不过" checked>
 					<input type="radio" name="status" value="2" title="审核通过">
 				</div>
 			</div>
@@ -83,7 +83,7 @@
 				</div>
 			</div>
 			<div class="layui-form-item"  style="margin-right: 100px;text-align: right;">
-				<button type="button" class="layui-btn" onclick="audit()"><i class="layui-icon layui-icon-auz"></i> 审核提交</button>
+				<button type="button" class="layui-btn" onclick="audit()" id="btn"><i class="layui-icon layui-icon-auz"></i> 审核提交</button>
 			</div>
 		</form>
 	</div>
@@ -101,21 +101,26 @@
 		function audit() {
 			var status = $("input[name='status']:checked").val();
 			var id = $("#proId").val();
+			var explain = $("#explain").val();
 			$.ajax({
 				type : "post",
 				url : "../projects/audit",
 				data : {
 					"id" : id,
-					"status" : status
+					"status" : status,
+					"explain" : explain
 				},
 				dataType : "json",
 				success : function(data) {
 					var retCode = data.retCode;
-					if (retCode == "0010") {
+					if (retCode == "0000") {
 						layer.msg(data.retMsg, {
 							icon : 1,
 							time : 2000,
 						});
+						$("#btn").text("审核成功");
+						$("#btn").addClass("layui-btn-disabled");
+						$("#btn").attr("disabled",true);
 					} else {
 						layer.msg(data.retMsg, {
 							icon : 2,
