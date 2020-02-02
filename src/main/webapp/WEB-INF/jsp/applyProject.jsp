@@ -114,6 +114,17 @@
 			<div class="layui-row">
 				<div class="layui-col-md12">
 					<div class="layui-form-item">
+						<label class="layui-form-label lw">病症</label>
+						<div class="layui-input-inline">
+							<input type="text" id="disease" name="disease" class="layui-input" maxlength="255"  placeholder="请输入病症"
+								style="width: 750px;">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-md12">
+					<div class="layui-form-item">
 						<label class="layui-form-label lw">现住址</label>
 						<div class="layui-input-inline">
 							<textarea id="nowAddress" name="nowAddress" placeholder="请输入地址" class="layui-textarea"
@@ -274,6 +285,14 @@
 				});
 				return;
 			}
+			var disease = $("#disease").val().trim();
+			if(disease == '' || disease == undefined){
+				layer.msg("病症不可为空", {
+					icon : 2,
+					time : 2000,
+				});
+				return;
+			}
 			var endTime = $("#endTime").val().trim();
 			if(endTime == '' || endTime == undefined){
 				layer.msg("捐款日期截止不可为空", {
@@ -311,6 +330,7 @@
 					"hospital" : hospital,
 					"endTime" : endTime,
 					"nowAddress" : nowAddress,
+					"disease" : disease,
 					"details" : details
 				},
 				dataType : "json",

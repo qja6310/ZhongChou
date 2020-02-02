@@ -84,11 +84,16 @@ public class DonationController extends BaseController {
 			return mav;
 		}
 		String money = (String) request.getSession().getAttribute("money");
+//		if(StringUtil.isBlank(money)) {
+//			mav = new ModelAndView("index");
+//			return mav;
+//		}
+		User user = (User) request.getSession().getAttribute("user");
 		if(StringUtil.isBlank(money)) {
-			mav = new ModelAndView("index");
+			model.addAttribute("jump", "donation");
+			model.addAttribute("proId",proId);
 			return mav;
 		}
-		User user = (User) request.getSession().getAttribute("user");
 		String retcode = proService.donation(proId, money,user.getId());
 		JSONObject retJson = responseMsg(retcode,"PRO");
 		model.addAttribute("jump", "donation");

@@ -29,7 +29,7 @@
 	<input id="proId" type="hidden" value="${pro.id }" />
 	<input type="hidden" id="retCode" value="${retCode }">
 	<input type="hidden" id="retMsg" value="${retMsg }">
-	<c:if test="${user.role != 'a' }">
+	<c:if test="${user.role != 'a' && flag == 1}">
 		<fieldset class="layui-elem-field layui-field-title"
 			style="margin-top: 40px;margin-bottom: -20px;">
 			<legend style="font-weight: 500;">献爱心</legend>
@@ -83,6 +83,10 @@
 					<td>${pro.totalMoney } 元</td>
 					<th>申请时间</th>
 					<td>${pro.applyTime }</td>
+				</tr>
+				<tr>
+					<th>病症</th>
+					<td colspan="7">${pro.disease }</td>
 				</tr>
 			</tbody>
 		</table>

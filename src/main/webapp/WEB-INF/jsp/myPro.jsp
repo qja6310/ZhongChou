@@ -81,20 +81,25 @@
 										test="${item.status == 3}">审核未通过</c:if></td>
 								<td>${item.applyTime }</td>
 								<td>${item.refuseCount }</td>
-								<td class="center"><c:if
-										test="${item.refuseCount < 3 && item.status == 3}">
+								<td class="center">
+									<button type="button" class="layui-btn layui-btn-sm layui-btn-normal" onclick="proDetails('${item.id}')">
+										<i class="layui-icon layui-icon-about"></i> 详情
+									</button>
+									<c:if test="${item.refuseCount < 3 && item.status == 3}">
 										<button type="button"
 											class="layui-btn layui-btn-sm layui-btn-normal"
 											onclick="edit('${item.id}')">
 											<i class="layui-icon layui-icon-edit"></i> 修改
 										</button>
-									</c:if> <c:if test="${item.status == 2}">
+									</c:if> 
+									<c:if test="${item.status == 2}">
 										<button type="button"
 											class="layui-btn layui-btn-sm layui-btn-warm"
 											onclick="showSqtx('${item.id}','${item.currentMoney }')">
 											<i class="layui-icon layui-icon-rmb"></i> 资金管理
 										</button>
-									</c:if></td>
+									</c:if>
+								</td>
 							</tr>
 						</c:forEach>
 					</c:when>
@@ -113,11 +118,17 @@
 		<div class="layui-card-header"><h3>申请提现</h3></div>
 		<div class="layui-card-body">
 			您当前最多可提取：<font id="txFont"></font>元
+			<input type="text" id="yhkh" class="layui-input" 
+			placeholder="请输入银行卡号" 
+			oninput="value=value.replace(/[^\d]|^[0]/g,'')"
+			style="width: 250px;"/>
+			
 			<input type="text" id="txText" class="layui-input" 
 			onkeyup="var p2 = parseFloat(value).toFixed(2);value = p2>=0?(/\.0?$/.test(value)?value:p2.replace(/0$/,'').replace(/\.0$/,'')):''" 
 			onblur="value = value.replace(/\.0*$/,'')"
 			maxlength="10"
-			style="width: 250px;text-align: right;"/>
+			placeholder="请输入提现金额" 
+			style="width: 250px;"/>
 			<div style="margin-top: 5px;">
 				<button type="button"
 					class="layui-btn"
@@ -169,8 +180,23 @@
 		}
 		//确定提现
 		function sureTX(){
+			var yhCardNum = $("#yhkh").val().trim();
+			if(yhCardNum == '' || yhCardNum == undefined){
+				layer.msg("收款银行卡号不可为空", {
+					icon : 2,
+					time : 2000,
+				});
+				return;
+			}
 			var currentMoney = $("#currentMoney").val() * 1;
 			var txMoney = $("#txText").val() * 1;
+			if(txMoney == '' || txMoney == undefined){
+				layer.msg("提现金额不可为空", {
+					icon : 2,
+					time : 2000,
+				});
+				return;
+			}
 			if(currentMoney < txMoney){
 				layer.msg("提现金额已超出当前金额", {
 					icon : 2,
@@ -178,6 +204,7 @@
 				});
 				return;
 			}
+			
 			var proId = $("#proId").val();
 			if(proId == '' || proId == undefined){
 				layer.msg("缺失关键参数", {
@@ -191,7 +218,8 @@
 				url : "../withdraw/apply",
 				data : {
 					"proId" : proId,
-					"txMoney" : txMoney
+					"txMoney" : txMoney,
+					"yhCardNum" : yhCardNum
 				},
 				dataType : "json",
 				success : function(data) {
@@ -217,6 +245,18 @@
 					return;
 				}
 			});
+		}
+		
+		//项目详情
+		function proDetails(id){
+			if(id == '' || id == undefined){
+				layer.msg("缺失关键参数", {
+					icon : 2,
+					time : 2000,
+				});
+				return;
+			}
+			$('#content').load('../projects/details?id='+id);
 		}
 	</script>
 </body>

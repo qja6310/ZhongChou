@@ -55,6 +55,10 @@
 					<th>申请时间</th>
 					<td>${pro.applyTime }</td>
 				</tr>
+				<tr>
+					<th>病症</th>
+					<td colspan="7">${pro.disease }</td>
+				</tr>
 			</tbody>
 		</table>
 	</div>

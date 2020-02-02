@@ -41,7 +41,7 @@ public class ProjectProvider {
 		}
 		if(StringUtil.isNotBlank(project.getDetails())) {
 			project.setDetails("%"+project.getDetails()+"%");
-			sql.WHERE("p.details like #{details}");
+			sql.WHERE("p.details like #{details} or p.patientName like #{details} or p.disease like #{details}");
 		}
 		if(StringUtil.isNotBlank(project.getUserId())) {
 			sql.WHERE("p.userId = #{userId}");
@@ -84,7 +84,7 @@ public class ProjectProvider {
 		}
 		if(StringUtil.isNotBlank(project.getDetails())) {
 			project.setDetails("%"+project.getDetails()+"%");
-			sql.WHERE("p.details like #{details}");
+			sql.WHERE("p.details like #{details} or p.patientName like #{details} or p.disease like #{details}");
 		}
 		return sql.toString();
 	}

@@ -59,6 +59,8 @@
 						<td>${wl.pzshTime }</td>
 						<th>凭证审核人</th>
 						<td>${wl.pzAdminName }</td>
+						<th>银行卡号</th>
+						<td>${wl.yhCardNum }</td>
 					</tr>
 				</tbody>
 			</table>

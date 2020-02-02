@@ -37,7 +37,7 @@ public class FundManageProvider {
 	
 	public String queryWithdrawLogByParams(WithdrawLog wl) {
 		SQL sql = new SQL();
-		sql.SELECT("wl.id,wl.money,wl.`status`,wl.applyTime,wl.auditTime,wl.projectId,wl.evidence,wl.pztjTime,wl.pzshTime,wl.pzshAdminId"
+		sql.SELECT("wl.id,wl.money,wl.`status`,wl.applyTime,wl.auditTime,wl.projectId,wl.evidence,wl.pztjTime,wl.pzshTime,wl.pzshAdminId,wl.yhCardNum"
 				+ ",p.patientName,p.phone,u.`name` userName,p.currentMoney,a1.name txAdminName,a2.name pzAdminName");
 		sql.FROM(T_WITHDRAW_LOG + " wl INNER JOIN " + T_PROJECT + " p on wl.projectId = p.id " + 
 				"INNER JOIN " + T_USER + " u on u.id = wl.userId LEFT JOIN " + T_ADMIN + " a1 on a1.id = wl.adminId " +

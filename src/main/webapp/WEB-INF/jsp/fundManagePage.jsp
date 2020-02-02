@@ -12,6 +12,7 @@
 				<td>${item.phone }</td>
 				<td>${item.currentMoney }</td>
 				<td>${item.money }</td>
+				<td>${item.yhCardNum }</td>
 				<td>
 					<c:if test="${item.status == 1}">提现待审核</c:if>
 					<c:if test="${item.status == 2}">提现审核通过</c:if>
@@ -31,8 +32,8 @@
 						</button>
 					</c:if>
 					<c:if test="${item.status == 4 || item.status == 0}">
-						<button type="button" class="layui-btn layui-btn-xs layui-btn-warm" onclick="pzDetails('${item.id}')">
-							<i class="layui-icon layui-icon-read"></i> 凭证详情
+						<button type="button" class="layui-btn layui-btn-xs layui-btn-normal" onclick="pzDetails('${item.id}')">
+							<i class="layui-icon layui-icon-about"></i> 凭证详情
 						</button>
 					</c:if>
 				</td>

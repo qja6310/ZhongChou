@@ -90,6 +90,7 @@
 					<th style="text-align: center;">联系电话</th>
 					<th style="text-align: center;">当前金额(元)</th>
 					<th style="text-align: center;">提现金额(元)</th>
+					<th style="text-align: center;">银行卡号</th>
 					<th style="text-align: center;">状态</th>
 					<th style="text-align: center;">申请时间</th>
 					<th style="text-align: center;">操作</th>
@@ -226,6 +227,18 @@
 				return;
 			}
 			$('#content').load('../fund/pztj?wlId='+id);
+		}
+		
+		//凭证审核详情
+		function pzDetails(id){
+			if(id == '' || id == undefined){
+				layer.msg("缺失主要参数", {
+					icon : 2,
+					time : 2000,
+				});
+				return;
+			}
+			$('#content').load('../fund/pzDetails?wlId='+id);
 		}
 	</script>
 </body>

@@ -91,6 +91,7 @@
 					<th style="text-align: center;">联系电话</th>
 					<th style="text-align: center;">当前金额(元)</th>
 					<th style="text-align: center;">提现金额(元)</th>
+					<th style="text-align: center;">银行卡号</th>
 					<th style="text-align: center;">状态</th>
 					<th style="text-align: center;">申请时间</th>
 					<th style="text-align: center;">操作</th>

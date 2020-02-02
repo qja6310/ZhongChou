@@ -13,6 +13,7 @@ public class Project extends PageBean{
 	private String endTime;
 	private String nowAddress;
 	private String identityNum;
+	private String disease;
 	private String details;
 	private String applyTime;
 	private String userId;
@@ -164,6 +165,14 @@ public class Project extends PageBean{
 
 	public void setTotalMoney(String totalMoney) {
 		this.totalMoney = totalMoney;
+	}
+
+	public String getDisease() {
+		return disease;
+	}
+
+	public void setDisease(String disease) {
+		this.disease = disease;
 	}
 	
 	

@@ -93,6 +93,10 @@ public class ProjectController extends BaseController {
 		if(StringUtil.isBlank(endTime)) {
 			return responseMsg("0002","PRO");
 		}
+		String disease = request.getParameter("disease");
+		if(StringUtil.isBlank(disease)) {
+			return responseMsg("0002","PRO");
+		}
 		String nowAddress = request.getParameter("nowAddress");
 		if(StringUtil.isBlank(nowAddress)) {
 			return responseMsg("0002","PRO");
@@ -116,6 +120,7 @@ public class ProjectController extends BaseController {
 		project.setHospital(hospital);
 		project.setTargetMoney(targetMoney);
 		project.setNowAddress(nowAddress);
+		project.setDisease(disease);
 		project.setDetails(details);
 		String retcode = proService.addProject(project);
 		return responseMsg(retcode,"PRO");
@@ -273,6 +278,8 @@ public class ProjectController extends BaseController {
 		if(StringUtil.isBlank(id)) {
 			mav = new ModelAndView("index");
 		}
+		String flag = request.getParameter("flag");
+		model.addAttribute("flag", flag);
 		Project pro = proService.queryProjectById(id);
 		model.addAttribute("pro", pro);
 		return mav;
@@ -284,11 +291,19 @@ public class ProjectController extends BaseController {
 		if(StringUtil.isBlank(id)) {
 			mav = new ModelAndView("index");
 		}
+		String money = (String) request.getSession().getAttribute("money");
 		Project pro = proService.queryProjectById(id);
+		if(StringUtil.isBlank(money)) {
+			model.addAttribute("pro", pro);
+			model.addAttribute("flag", "1");
+			mav = new ModelAndView("proDetails");
+		}
 		model.addAttribute("pro", pro);
+		model.addAttribute("flag", "1");
 		model.addAttribute("retCode", request.getParameter("retCode"));
 		model.addAttribute("retMsg", request.getParameter("retMsg"));
 		model.addAttribute("money", request.getParameter("money"));
+		request.getSession().removeAttribute("money");
 		return mav;
 	}
 	

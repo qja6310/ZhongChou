@@ -14,6 +14,7 @@ public class WithdrawLog extends PageBean{
 	private String pztjTime;
 	private String pzshTime;
 	private String pzshAdminId;
+	private String yhCardNum;
 	
 	private String startApplyTime;
 	private String endApplyTime;
@@ -196,6 +197,14 @@ public class WithdrawLog extends PageBean{
 
 	public void setPzAdminName(String pzAdminName) {
 		this.pzAdminName = pzAdminName;
+	}
+
+	public String getYhCardNum() {
+		return yhCardNum;
+	}
+
+	public void setYhCardNum(String yhCardNum) {
+		this.yhCardNum = yhCardNum;
 	}
 	
 	

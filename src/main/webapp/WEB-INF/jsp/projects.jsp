@@ -102,7 +102,7 @@
 				});
 				return;
 			}
-			$('#content').load('../projects/details?id='+id);
+			$('#content').load('../projects/details?id='+id + '&flag=1');
 		}
 	</script>
 </body>

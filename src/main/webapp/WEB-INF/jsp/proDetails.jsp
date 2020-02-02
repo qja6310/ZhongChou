@@ -28,7 +28,7 @@
 <body>
 	<input id="proId" type="hidden" value="${pro.id }" />
 	<input id="endTime" type="hidden" value="${pro.endTime }"/>
-	<c:if test="${user.role != 'a' }">
+	<c:if test="${user.role != 'a' && flag == 1}">
 		<fieldset class="layui-elem-field layui-field-title"
 			style="margin-top: 40px;margin-bottom: -20px;">
 			<legend style="font-weight: 500;">献爱心</legend>
@@ -83,6 +83,10 @@
 					<th>申请时间</th>
 					<td>${pro.applyTime }</td>
 				</tr>
+				<tr>
+					<th>病症</th>
+					<td colspan="7">${pro.disease }</td>
+				</tr>
 			</tbody>
 		</table>
 	</div>
@@ -126,7 +130,6 @@
 	    }
 	    
 		function toDonation() {
-			debugger;
 			var endTime = $("#endTime").val();
 			if(endTime <= currTime){
 				layer.msg("捐款时间已截止", {

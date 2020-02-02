@@ -87,8 +87,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public String editUser(User user) {
-		// TODO Auto-generated method stub
-		return null;
+		Integer ret = userMapper.editUser(user);
+		if(ret == 1) {
+			return "0020";
+		}
+		return "0021";
 	}
-
 }

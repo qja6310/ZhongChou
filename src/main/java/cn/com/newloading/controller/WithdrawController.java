@@ -1,5 +1,7 @@
 package cn.com.newloading.controller;
 
+import java.text.DecimalFormat;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +30,23 @@ public class WithdrawController extends BaseController{
 		if(StringUtil.isBlank(proId)) {
 			return responseMsg("0002","WDL");
 		}
+		String yhCardNum = request.getParameter("yhCardNum");
+		if(StringUtil.isBlank(yhCardNum)) {
+			return responseMsg("0002","WDL");
+		}
 		String txMoney = request.getParameter("txMoney");
 		if(StringUtil.isBlank(proId)) {
 			return responseMsg("0002","WDL");
 		}
+		
+		//不可以提现0元
+		Double m = Double.parseDouble(txMoney);
+		DecimalFormat df = new DecimalFormat("0.00");
+		String mdf = df.format(m);
+		if("0.00".equals(mdf)) {
+			return responseMsg("0004","WDL");
+		}
+		
 		User user = (User) request.getSession().getAttribute("user");
 		if(user == null) {
 			return responseMsg("0002","WDL");
@@ -40,6 +55,7 @@ public class WithdrawController extends BaseController{
 		wl.setProjectId(proId);
 		wl.setMoney(txMoney);
 		wl.setUserId(user.getId());
+		wl.setYhCardNum(yhCardNum);
 		String retcode = wlService.addWithdrawLog(wl);
 		return responseMsg(retcode,"WDL");
 	}
