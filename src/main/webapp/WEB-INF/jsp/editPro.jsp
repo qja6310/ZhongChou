@@ -29,6 +29,36 @@
 </style>
 </head>
 <body>
+	<fieldset class="layui-elem-field layui-field-title"
+		style="margin-top: 20px;">
+		<legend style="font-weight: 500;">审核详情</legend>
+	</fieldset>
+	<div>
+		<table class="layui-table">
+			<tbody>
+				<tr>
+					<th style="width: 5%;">审核人</th>
+					<td>${al.adminName }</td>
+					<th style="width: 5%;">审核结果</th>
+					<td>
+						<c:if test="${al.status == 3 }">审核不通过</c:if>
+						<c:if test="${al.status == 2 }">审核通过</c:if>
+						<c:if test="${al.status == 1 }">待审核</c:if>
+					</td>
+					<th style="width: 5%;">审核时间</th>
+					<td>${al.auditTime }</td>
+				</tr>
+				<tr>
+					<th style="width: 5%;">审核说明</th>
+					<td colspan="6">${al.explains }</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<fieldset class="layui-elem-field layui-field-title"
+		style="margin-top: 20px;">
+		<legend style="font-weight: 500;">项目信息</legend>
+	</fieldset>
 	<form class="layui-form" action="">
 		<input type="hidden" id="id" value="${pro.id }" />
 		<div class="layui-container fm">

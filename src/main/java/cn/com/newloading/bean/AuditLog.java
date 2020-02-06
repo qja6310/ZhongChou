@@ -9,6 +9,8 @@ public class AuditLog {
 	private String status;
 	private String auditTime;
 	
+	private String adminName;
+	
 	public AuditLog() {
 		
 	}
@@ -59,6 +61,14 @@ public class AuditLog {
 
 	public void setAuditTime(String auditTime) {
 		this.auditTime = auditTime;
+	}
+
+	public String getAdminName() {
+		return adminName;
+	}
+
+	public void setAdminName(String adminName) {
+		this.adminName = adminName;
 	}
 	
 	

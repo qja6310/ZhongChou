@@ -87,7 +87,7 @@
 									</button>
 									<c:if test="${item.refuseCount < 3 && item.status == 3}">
 										<button type="button"
-											class="layui-btn layui-btn-sm layui-btn-normal"
+											class="layui-btn layui-btn-sm layui-btn-warm"
 											onclick="edit('${item.id}')">
 											<i class="layui-icon layui-icon-edit"></i> 修改
 										</button>

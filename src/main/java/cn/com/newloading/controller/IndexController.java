@@ -13,29 +13,33 @@ import cn.com.newloading.bean.User;
 public class IndexController {
 
 	@RequestMapping("/index")
-	public ModelAndView toLogin(HttpServletRequest request) {
-		ModelAndView mav = new ModelAndView("index");
-		return mav;
+	public String toLogin(HttpServletRequest request) {
+//		ModelAndView mav = new ModelAndView("index");
+//		return mav;
+		return "index";
 	}
 	
 	@RequestMapping("/register")
-	public ModelAndView register(HttpServletRequest request) {
-		ModelAndView mav = new ModelAndView("register");
-		return mav;
+	public String register(HttpServletRequest request) {
+//		ModelAndView mav = new ModelAndView("register");
+//		return mav;
+		return "register";
 	}
 	
 	@RequestMapping("/main")
-	public ModelAndView main(HttpServletRequest request) {
-		ModelAndView mav = new ModelAndView("main");
+	public String main(HttpServletRequest request) {
+//		ModelAndView mav = new ModelAndView("main");
 		Role user = (Role) request.getSession().getAttribute("user");
-		return mav;
+//		return mav;
+		return "main";
 	}
 	
 	@RequestMapping("/logout")
-	public ModelAndView logout(HttpServletRequest request) {
-		ModelAndView mav = new ModelAndView("main");
+	public String logout(HttpServletRequest request) {
+//		ModelAndView mav = new ModelAndView("main");
 		request.getSession().removeAttribute("user");;
-		return mav;
+//		return mav;
+		return "main";
 	}
 	
 }

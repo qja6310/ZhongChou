@@ -13,7 +13,7 @@
 	<artifactId>zhongchou</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>ZhongChou</name>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<description></description>
 
 	<properties>
@@ -27,22 +27,11 @@
 		</dependency>
 
 		<!-- 移除tomcat -->
-		<!-- <dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-starter-tomcat</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-tomcat</artifactId>
-			<scope>provided</scope>
-		</dependency> -->
+		<!-- <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-web</artifactId> 
+			<exclusions> <exclusion> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-tomcat</artifactId> 
+			</exclusion> </exclusions> </dependency> <dependency> <groupId>org.springframework.boot</groupId> 
+			<artifactId>spring-boot-starter-tomcat</artifactId> <scope>provided</scope> 
+			</dependency> -->
 		<!-- /移除tomcat -->
 
 		<dependency>
@@ -126,28 +115,23 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>1.4.2.RELEASE</version>
 			</plugin>
-
 			<!-- 引入java编译器插件 -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-					<compilerVersion>1.8</compilerVersion>
-					<encoding>UTF-8</encoding>
-				</configuration>
-			</plugin>
-
-			<!-- 资源文件拷贝插件 -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
-				<configuration>
-					<encoding>UTF-8</encoding>
-				</configuration>
-			</plugin>
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-compiler-plugin</artifactId> 
+				<configuration> <source>1.8</source> <target>1.8</target> <compilerVersion>1.8</compilerVersion> 
+				<encoding>UTF-8</encoding> </configuration> </plugin>资源文件拷贝插件 <plugin> <groupId>org.apache.maven.plugins</groupId> 
+				<artifactId>maven-resources-plugin</artifactId> <configuration> <encoding>UTF-8</encoding> 
+				</configuration> </plugin> -->
 		</plugins>
+		<resources>
+			<resource>
+				<directory>src/main/webapp</directory>
+				<targetPath>META-INF/resources</targetPath>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+		</resources>
 	</build>
 </project>

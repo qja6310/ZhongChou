@@ -13,10 +13,10 @@ public class AlipayConfig {
     // 支付宝公钥,查看地址：https://openhome.alipay.com/platform/keyManage.htm 对应APPID下的支付宝公钥。
     public static String alipay_public_key = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjUNg8aTxR5RbEuEPXHPQyzP2B83bsMccsj4EzH3CnpgqIZh+u9rrxTrmGXDPnjrM2UxWFLxyXZ/2jKUZw0hAN1H+IxjtiKtyg7hcRCdToNCXF4UufT3piz3sMwRta5MFaf8Khp1MUQwpt+QRdd6TEgVE8r0jnro1jSFbRcxVOmWWIzwPeI73dric/6F1n3OVfIPUdUO0v009+RY3ETUBeQX2j5P2TW5h19/gp5c+GR+gl8mMv9MtikQ6Rq9joqkEy9ElwmeOT6TERvxAeztCQL6cOl+06OvoriW9KwCC+xSUKBjLKxUGNpfywWhvCYD6/CfhYxL4fduqazehW7xVqQIDAQAB";
 	// 服务器异步通知页面路径  需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
-	public static String notify_url = "http://127.0.0.1:8080/donation/callBack";
+	public static String notify_url = "http://49.234.192.208:8585/donation/callBack";
 
 	// 页面跳转同步通知页面路径 需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
-	public static String return_url = "http://127.0.0.1:8080/callBack";
+	public static String return_url = "http://49.234.192.208:8585/callBack";
 
 	// 签名方式
 	public static String sign_type = "RSA2";

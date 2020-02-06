@@ -17,6 +17,7 @@ import cn.com.newloading.bean.Admin;
 import cn.com.newloading.bean.AuditLog;
 import cn.com.newloading.bean.Project;
 import cn.com.newloading.bean.User;
+import cn.com.newloading.service.AuditLogService;
 import cn.com.newloading.service.ProjectService;
 import cn.com.newloading.utils.StringUtil;
 
@@ -26,6 +27,8 @@ public class ProjectController extends BaseController {
 
 	@Autowired
 	private ProjectService proService;
+	@Autowired
+	private AuditLogService alService;
 	
 	@RequestMapping("/myProject")
 	public ModelAndView myProject(HttpServletRequest request,Model model) {
@@ -48,6 +51,10 @@ public class ProjectController extends BaseController {
 		if(StringUtil.isBlank(id)) {
 			mav = new ModelAndView("index");
 		}
+		//获取审核详情
+		List<AuditLog> alList = alService.queryAuditLogByProId(id);
+		model.addAttribute("al", alList.get(0));
+		//获取项目
 		Project pro = proService.queryProjectById(id);
 		model.addAttribute("pro", pro);
 		return mav;
